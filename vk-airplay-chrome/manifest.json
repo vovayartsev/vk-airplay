@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "VK Airplay Control",
+    "description": "Sends VK music to Apple TV",
+    "version": "1.0",
+    "permissions": [
+        "http://localhost/", "http://localhost:3000/"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["file://*fake.html", "http://vk.com/audios*"],
+            "css": ["css/content.css"],
+            "js": ["js/jquery.min.js", "js/sugar.min.js", "js/api.js", "js/content.js"]
+        }
+    ],
+    "background": {
+        "scripts": ["js/background.js"]
+    },
+    "web_accessible_resources": [ "js/jquery.min.map" ],
+    "browser_action": {
+        "default_icon": "img/icon.png",
+        "default_popup": "popup.html"
+    }
+}

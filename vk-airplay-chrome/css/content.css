@@ -1,0 +1,19 @@
+.audio span.airplay-button {
+    display: block;
+    position: absolute;
+    z-index: 100;
+    left: -10px;
+    top: 5px;
+    bottom: 5px;
+    width: 5px;
+    cursor: pointer;
+    background-image: none;
+}
+
+.audio span.airplay-button.triangle {
+    background-color: #216baa;
+}
+
+.audio span.airplay-button.pause {
+    background-color: #ffa714;
+}

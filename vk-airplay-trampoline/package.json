@@ -1,0 +1,11 @@
+{
+  "name": "vk-airplay-trampoline",
+  "description": "The NodeJS bridge between AppleTV and the browser",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.4",
+    "body-parser": "1.4.3",
+    "airplay": "0.0.3"
+  }
+}
