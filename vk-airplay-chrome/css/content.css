@@ -1,3 +1,4 @@
+
 .audio span.airplay-button {
     display: block;
     position: absolute;
@@ -18,3 +19,21 @@
 .audio.being-played span.airplay-button {
     background-color: #ffa714;
 }
+
+.audio div.airplay-progress {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: white;
+    background-color: #6590aa;
+    padding: 10px 5px 0 5px;
+    text-align: right;
+}
+
+.audio.being-played div.airplay-progress {
+    display: block;
+}
+
+

@@ -14,6 +14,7 @@ function hookItem() {
     var $audio = $(this);
     $audio.addClass("airplay-hooked");
     $audio.find(".area").prepend("<span class='airplay-button'/>");
+    $audio.append("<div class='airplay-progress' />")
     setHandlers($audio);
 }
 
@@ -30,7 +31,7 @@ function scrap($audio) {
 }
 
 function currentlyPlayedUiItem() {
-    var $audio = $(".audio:has(.airplay-button.being-played)");
+    var $audio = $(".audio.being-played");
     if ($audio.length) {
         return scrap($audio);
     } else {
@@ -39,9 +40,11 @@ function currentlyPlayedUiItem() {
 }
 
 function startPlayingAudio($audio) {
-    play(scrap($audio));
+    var item = scrap($audio);
+    play(item);
     clearPlayIcons();
     markAsStarting($audio);
+    console.log("Started AirPlay: " + item.song);
 }
 
 function setHandlers($audio) {
@@ -122,11 +125,22 @@ function audioChosenOnServer(serverStatus) {
     return result;
 }
 
+function updateProgress($audio, serverStatus) {
+    var text;
+    if (serverStatus.length > 0) {
+        text = serverStatus.position.toFixed(0) + " / " + serverStatus.length.toFixed(0);
+    } else {
+        text = "loading...";
+    }
+    $audio.find('.airplay-progress').html(text);
+}
+
 function highlightAudioCurrentlyPlayedOnServer(serverStatus) {
     if (serverStatus.status == "play") {
         var $audio = audioChosenOnServer(serverStatus);
         if ($audio) {
             markAsBeingPlayed($audio);
+            updateProgress($audio, serverStatus);
         }
     }
 }

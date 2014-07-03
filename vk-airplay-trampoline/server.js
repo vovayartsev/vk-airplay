@@ -59,7 +59,7 @@ app.post('/device/play.json', function(req, res){
   currentState.song = req.body.song;
   currentState.url = req.body.url;
   currentState.status = "play";
-  currentState.length = 300; // TODO: hardcode
+  currentState.length = 0;
   currentState.position = 1;
 
   if (device) {
