@@ -2,18 +2,18 @@
     display: block;
     position: absolute;
     z-index: 100;
-    left: -10px;
-    top: 5px;
-    bottom: 5px;
+    left: -8px;
+    top: 6px;
+    bottom: 6px;
     width: 5px;
     cursor: pointer;
     background-image: none;
 }
 
-.audio span.airplay-button.triangle {
+.audio span.airplay-button.not-being-played {
     background-color: #216baa;
 }
 
-.audio span.airplay-button.pause {
+.audio span.airplay-button.being-played {
     background-color: #ffa714;
 }
