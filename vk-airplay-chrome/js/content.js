@@ -13,7 +13,7 @@ function normalizeUrl(url) {
 function hookItem() {
     var $audio = $(this);
     $audio.addClass("airplay-hooked");
-    $audio.find(".area").prepend("<span class='airplay-button not-being-played'/>");
+    $audio.find(".area").prepend("<span class='airplay-button'/>");
     setHandlers($audio);
 }
 
@@ -29,7 +29,6 @@ function scrap($audio) {
     return {song: song, url: url};
 }
 
-
 function currentlyPlayedUiItem() {
     var $audio = $(".audio:has(.airplay-button.being-played)");
     if ($audio.length) {
@@ -39,26 +38,21 @@ function currentlyPlayedUiItem() {
     }
 }
 
-function markAsBeingPlayed($audio) {
-    $audio.find('.airplay-button').removeClass("not-being-played").addClass("being-played");
-}
-
-function onAudioClicked($audio) {
+function startPlayingAudio($audio) {
     play(scrap($audio));
     clearPlayIcons();
-    markAsBeingPlayed($audio);
+    markAsStarting($audio);
 }
 
 function setHandlers($audio) {
-    $audio.find(".airplay-button.not-being-played").click(function (event) {
+    $audio.find('.airplay-button').click(function (event) {
         event.stopPropagation();
-        onAudioClicked($(this).parent());
-    });
-
-    $audio.find(".airplay-button.pause").click(function (event) {
-        event.stopPropagation();
-        clearPlayIcons();
-        pause();
+        if ($audio.hasClass('being-played')) {
+            clearPlayIcons();
+            pause();
+        } else {
+            startPlayingAudio($audio);
+        }
     });
 }
 
@@ -68,8 +62,16 @@ function scrollToAudio($audio) {
     });
 }
 
+function markAsStarting($audio) {
+    $audio.addClass('starting');
+}
+
+function markAsBeingPlayed($audio) {
+    $audio.removeClass('starting').addClass("being-played");
+}
+
 function clearPlayIcons() {
-    $(".airplay-button.being-played").removeClass("being-played").addClass("not-being-played");
+    $(".being-played").removeClass("being-played");
 }
 
 
@@ -77,7 +79,7 @@ function clearPlayIcons() {
 
 function justFinished(item, serverStatus) {
     return (serverStatus) &&
-        (serverStatus.position > serverStatus.length - 3) &&
+        (serverStatus.position > serverStatus.length - 5) &&
         (serverStatus.status == "pause") &&
         (serverStatus.url == item.url);
 }
@@ -97,7 +99,7 @@ function playNextAfter(currentItem) {
     var playNext = false;
     $audios_list.find(".audio.airplay-hooked").each(function () {
         if (playNext) {
-            onAudioClicked($(this));
+            startPlayingAudio($(this));
             scrollToAudio($(this)); // just to initiate VK's infinite scroll
         }
         var item = scrap($(this));

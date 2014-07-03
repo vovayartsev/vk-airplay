@@ -8,12 +8,13 @@
     width: 5px;
     cursor: pointer;
     background-image: none;
-}
-
-.audio span.airplay-button.not-being-played {
     background-color: #216baa;
 }
 
-.audio span.airplay-button.being-played {
+.audio.starting span.airplay-button {
+    background-color: #fffaa5;
+}
+
+.audio.being-played span.airplay-button {
     background-color: #ffa714;
 }
