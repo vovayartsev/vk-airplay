@@ -3,7 +3,8 @@ var $audios_list = null;
 // HELPER FUNCTIONS
 
 function normalizeUrl(url) {
-    return /(^.*)\?.*$/.exec(url)[1];
+    var match = /(^.*)\?.*$/.exec(url);
+    return match && match[1];
 }
 
 
@@ -28,6 +29,10 @@ function rescanAndHookDom() {
 // extracts song title and URL from the DOM
 function scrap($audio) {
     var url = normalizeUrl($audio.find("div.play_btn_wrap ~ input[type=hidden]:first").val());
+
+    // TODO: why this happens?
+    if (!url) { return { song: "NONE", url: ""}};
+
     var song = $audio.find(".title_wrap").text();
     return {song: song, url: url};
 }
@@ -150,11 +155,16 @@ function highlightAudioCurrentlyPlayedOnServer(serverStatus) {
 // IN MVC, THIS WOULD BE CONTROLLER FUNCTIONS
 
 function every(milliseconds, callback) {
-    callback();
-    var again = function () {
+    try {
+        callback();
+    }
+    catch(err) {
+        console.error(err);
+    }
+    var againFn = function () {
         every(milliseconds, callback);
     };
-    setTimeout(again, milliseconds);
+    setTimeout(againFn, milliseconds);
 }
 
 
