@@ -8,7 +8,7 @@
     ],
     "content_scripts": [
         {
-            "matches": ["file://*fake.html", "http://vk.com/audios*"],
+            "matches": ["file://*fake.html", "http://vk.com/*"],
             "css": ["css/content.css"],
             "js": ["js/jquery.min.js", "js/sugar.min.js", "js/api.js", "js/content.js"]
         }

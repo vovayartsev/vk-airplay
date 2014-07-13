@@ -20,12 +20,14 @@ function hookItem() {
 
 // called periodically to find new (yet unhooked) audios in the DOM
 function rescanAndHookDom() {
+//    $audios_list = $("#audios_list");
+    $audios_list = $("body");
     $audios_list.find(".audio:not(.airplay-hooked)").each(hookItem);
 }
 
 // extracts song title and URL from the DOM
 function scrap($audio) {
-    var url = normalizeUrl($audio.find("div.play_btn input[type=hidden]").val());
+    var url = normalizeUrl($audio.find("div.play_btn_wrap ~ input[type=hidden]:first").val());
     var song = $audio.find(".title_wrap").text();
     return {song: song, url: url};
 }
@@ -81,7 +83,7 @@ function clearPlayIcons() {
 // MODEL FUNCTIONS, in terms of MVC
 
 function justFinished(item, serverStatus) {
-    return (serverStatus) &&
+    return (serverStatus.length > 5) &&
         (serverStatus.position > serverStatus.length - 5) &&
         (serverStatus.status == "pause") &&
         (serverStatus.url == item.url);
@@ -157,8 +159,6 @@ function every(milliseconds, callback) {
 
 
 $(function () {
-    $audios_list = $("#audios_list");
-
     // fires the callbacks immediately for the first time
     every(3000, rescanAndHookDom);
     every(3000, syncStateWithServer);

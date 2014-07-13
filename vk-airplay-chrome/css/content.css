@@ -2,7 +2,7 @@
 .audio span.airplay-button {
     display: block;
     position: absolute;
-    z-index: 100;
+    z-index: 10000;
     left: -8px;
     top: 6px;
     bottom: 6px;
@@ -10,6 +10,10 @@
     cursor: pointer;
     background-image: none;
     background-color: #216baa;
+}
+
+.post_media .audio span.airplay-button {
+    left: -1px;
 }
 
 .audio.starting span.airplay-button {
